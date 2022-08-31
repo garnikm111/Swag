@@ -1,6 +1,5 @@
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.asynchttpclient.Response;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,12 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import static io.restassured.RestAssured.given;
 
 public class SwagPage extends BasePage {
     @FindBy(xpath = "//div[contains(text(),'Pack')]")
@@ -155,37 +150,15 @@ public class SwagPage extends BasePage {
         super(driver);
     }
 
-    public void clickWithJSExecuter(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-
-    }
-
-    public void rest(String b) {
-        Response response = (Response) RestAssured.get(b).then().extract().response();
-
-    }
-
-    public void listMethod() {
-        ArrayList<String> nameList = new ArrayList<>(Arrays.asList("s", "a", "b"));
-        System.out.println(nameList.get(1));
-        System.out.println(nameList.size());
-
-
-    }
-
-    public boolean checkVisibibilty(WebElement element) {
-        return element.isDisplayed();
-
-    }
-
     public void javaScriptScroll(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public void swagLogin(String t, String s) {
-        action.type(userName, t);
-        action.type(password, s);
+    public void swagLogin(String username, String password) {
+        action.type(userName, username);
+        action.type(this.password, password);
         action.clickOnElement(loginButton);
+
     }
 
     public void addItemsToCard() {
@@ -219,10 +192,10 @@ public class SwagPage extends BasePage {
         action.clickOnElement(aboutPage);
         javaScriptScroll(numberOfTests);
         System.out.println("number of tests runned on this website" + numberOfTests.getText());
-        driver.navigate().back();
     }
 
     public void logOut() {
+        driver.navigate().back();
         action.clickOnElement(OpenMenu);
         wait.waitForElementToClickable(logOutButton);
         action.clickOnElement(logOutButton);
@@ -242,7 +215,7 @@ public class SwagPage extends BasePage {
         jsonObject.put("id", 64529);
 
 
-        given().log().all().accept(ContentType.JSON).contentType("application/json").and().body(jsonObject.toString()).post("https://gorest.co.in/public-api/users").thenReturn().asString();
+        RestAssured.given().log().all().accept(ContentType.JSON).contentType("application/json").and().body(jsonObject.toString()).post("https://gorest.co.in/public-api/users").thenReturn().asString();
     }
 
     public void raPut1() {
@@ -253,7 +226,7 @@ public class SwagPage extends BasePage {
         jsonObject.put("id", 75848);
 
 
-        given().log().all().accept(ContentType.JSON).contentType("application/json").and().body(jsonObject.toString()).put("https://gorest.co.in/public-api/users").thenReturn().asString();
+        RestAssured.given().log().all().accept(ContentType.JSON).contentType("application/json").and().body(jsonObject.toString()).put("https://gorest.co.in/public-api/users").thenReturn().asString();
     }
 
     public void raGet1() {
@@ -261,15 +234,7 @@ public class SwagPage extends BasePage {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", "Available");
 
-        given().log().all().accept(ContentType.JSON).contentType("application/json").and().body(jsonObject.toString()).get("https://petstore.swagger.io/v2/pet/findByStatus?status=available\n").thenReturn().asString();
-    }
-
-    public void askForLoan(String s, String k) {
-        action.clickOnElement(requestLoanButtonFromTheMenu);
-        action.type(loanAmount, s);
-        action.type(downPaymentAmount, k);
-        action.clickOnElement(applyNowButton);
-
+        RestAssured.given().log().all().accept(ContentType.JSON).contentType("application/json").and().body(jsonObject.toString()).get("https://petstore.swagger.io/v2/pet/findByStatus?status=available\n").thenReturn().asString();
     }
 
     public void signInToYoga(String s, String p) {

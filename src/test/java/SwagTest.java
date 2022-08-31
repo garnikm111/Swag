@@ -50,23 +50,6 @@ public class SwagTest extends BaseTest {
     public void logOutFromWebSite() {
         swagPage.logOut();
     }
-
-    @Test(priority = 8)
-    public void ra() {
-        swagPage.ra1();
-    }
-
-
-    @Test(priority = 9)
-    public void raPut() {
-        swagPage.raPut1();
-    }
-
-    @Test(priority = 10)
-    public void raGet() {
-        swagPage.raGet1();
-    }
-
     @Test(priority = 11)
     public void logInToYoga() {
         driver.get("https://magento.softwaretestingboard.com/");
